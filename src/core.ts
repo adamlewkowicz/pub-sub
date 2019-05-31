@@ -9,6 +9,12 @@ export class PubSub {
     this.events = {};
   }
   
+  /**
+   * Creates subscription handler
+   * @param eventName Event name that is subscription created for
+   * @param handler Subscription handler
+   * @returns {function} unsubscribe - removes subscription handler
+   */
   on(eventName: string, handler: SubscriptionHandler): Unsubscribe {
     if (eventName === EMIT_GLOBAL) {
       throw new Error(`Event name: ${EMIT_GLOBAL} is not allowed`);
@@ -19,6 +25,11 @@ export class PubSub {
     return () => this.off(eventName, handler);
   }
 
+  /**
+   * Emits event to subscribers
+   * @param eventName Event name that is event emitted for
+   * @param data Payload that subscription handlers will receive
+   */
   emit(eventName: string, data: Payload) {
 
     if (eventName === EMIT_GLOBAL) {
@@ -37,6 +48,11 @@ export class PubSub {
     }
   }
 
+  /**
+   * Removes subscription handler
+   * @param eventName Removes subscritpion handler for event name
+   * @param handlerToRemove Subscription handler to remove
+   */
   off(eventName: string, handlerToRemove: SubscriptionHandler) {
     const listeners = this.events[eventName];
 
@@ -63,7 +79,4 @@ interface Subscriptions {
   [eventName: string]: SubscriptionHandler[]
 }
 
-/**
- * Removes subscription from event
- */
 export type Unsubscribe = Function;

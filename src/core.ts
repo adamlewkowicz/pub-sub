@@ -56,6 +56,11 @@ export class PubSub {
   off(eventName: string, handlerToRemove: SubscriptionHandler) {
     const listeners = this.events[eventName];
 
+    if (handlerToRemove == null) {
+      delete this.events[eventName];
+      return;
+    }
+
     if (listeners && listeners.length) {
       this.events[eventName] = listeners.filter(handler => {
         handler === handlerToRemove

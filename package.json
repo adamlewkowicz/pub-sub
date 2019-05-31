@@ -19,6 +19,8 @@
   "homepage": "https://github.com/alk831/pub-sub#readme",
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.39",
+    "tsdoc": "0.0.4",
     "typescript": "^3.5.1"
-  }
+  },
+  "dependencies": {}
 }

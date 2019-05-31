@@ -1,5 +1,5 @@
 {
-  "name": "pub-sub",
+  "name": "@art4/pub-sub",
   "version": "1.0.0",
   "description": "Publish-subscribe event pattern",
   "main": "index.js",

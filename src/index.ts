@@ -1,23 +1,13 @@
+import { EMIT_GLOBAL } from './consts';
 
-interface SubscriptionHandler {
-  (data: Payload): void;
-}
 
-type Payload = string | number | object;
+export class PubSub {
 
-interface Subscriptions {
-  [eventName: string]: SubscriptionHandler[]
-}
+  private events: Subscriptions
 
-const EMIT_GLOBAL = '*';
-
-/**
- * Removes subscription from event
- */
-type Unsubscribe = Function;
-
-const PubSub = {
-  events: {} as Subscriptions,
+  constructor() {
+    this.events = {};
+  }
   
   on(eventName: string, handler: SubscriptionHandler): Unsubscribe {
     if (eventName === EMIT_GLOBAL) {
@@ -27,7 +17,8 @@ const PubSub = {
     this.events[eventName].push(handler);
 
     return () => this.off(eventName, handler);
-  },
+  }
+
   emit(eventName: string, data: Payload) {
 
     if (eventName === EMIT_GLOBAL) {
@@ -44,7 +35,8 @@ const PubSub = {
         listener(data);
       }
     }
-  },
+  }
+
   off(eventName: string, handlerToRemove: SubscriptionHandler) {
     const listeners = this.events[eventName];
 
@@ -53,9 +45,25 @@ const PubSub = {
         handler === handlerToRemove
       });
     }
-  },
+  }
 
-  get eventsArray() {
+  private get eventsArray() {
     return Object.values(this.events);
   }
 }
+
+
+export interface SubscriptionHandler {
+  (data: Payload): void;
+}
+
+export type Payload = string | number | object;
+
+interface Subscriptions {
+  [eventName: string]: SubscriptionHandler[]
+}
+
+/**
+ * Removes subscription from event
+ */
+export type Unsubscribe = Function;
